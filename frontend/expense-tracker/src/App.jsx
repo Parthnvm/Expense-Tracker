@@ -8,9 +8,9 @@ import{
 } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
-import Home from "./pages/Auth/Home";
-import Income from "./pages/Auth/Income";
-import Expense from "./pages/Auth/Expense";
+import Home from "./pages/Dashboard/Home";
+import Income from "./pages/Dashboard/Income";
+import Expense from "./pages/Dashboard/Expense";
 
 export const App = () => {
   return (
@@ -22,7 +22,7 @@ export const App = () => {
           <Route path="/signup" exact elemtn= {<SignUp />} />
           <Route path="/dashboard" exact elemtn= {<Home />} />
           <Route path="/income" exact elemtn= {<Income />} />
-          <Route path="/income" exact elemtn= {<Expense />} />
+          <Route path="/expense" exact elemtn= {<Expense />} />
         </Routes>
       </Router>
     </div>
@@ -30,3 +30,15 @@ export const App = () => {
 }
 
 export default App
+
+const Root = () => {
+  //Checking if token exits in local storage
+  const isAuthenticated = !!localStorage.getItem("token");
+
+  // Redirect to dashboard if authenticated, otherwise back to login page
+  return isAuthenticated ? (
+    <Navigate to="/dashboard" />
+  ) : (
+    <Navigate to="/login" />
+  );
+};
