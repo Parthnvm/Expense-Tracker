@@ -1,8 +1,8 @@
 import React from 'react'
 
-import{
-  BrowserRouter as Roter,
-  Routers,
+import {
+  BrowserRouter as Router,
+  Routes,
   Route,
   Navigate,
 } from "react-router-dom";
@@ -18,11 +18,11 @@ export const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Root />} />
-          <Route path="/login" exact elemtn= {<Login />} />
-          <Route path="/signup" exact elemtn= {<SignUp />} />
-          <Route path="/dashboard" exact elemtn= {<Home />} />
-          <Route path="/income" exact elemtn= {<Income />} />
-          <Route path="/expense" exact elemtn= {<Expense />} />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/signup" exact element={<SignUp />} />
+          <Route path="/dashboard" exact element={<Home />} />
+          <Route path="/income" exact element={<Income />} />
+          <Route path="/expense" exact element={<Expense />} />
         </Routes>
       </Router>
     </div>
