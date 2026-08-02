@@ -83,6 +83,7 @@ export const Login = () => {
   const [tIdx, setTIdx] = useState(0)
   const testimonial = TESTIMONIALS[tIdx]
   const navigate = useNavigate()
+  const { updateUser } = userContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -109,6 +110,7 @@ export const Login = () => {
 
       if (token) {
         localStorage.setItem("token", token);
+        updateUser(user);
         navigate("/dashboard");
       }
     } catch (error) {
