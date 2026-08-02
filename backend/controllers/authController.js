@@ -53,7 +53,7 @@ exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
-      return res.satuts(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     res.status(200).json({
@@ -64,7 +64,7 @@ exports.loginUser = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Error registering user", error: err.message });
+      .json({ message: "Error logging in", error: err.message });
   }
 };
 
@@ -80,6 +80,6 @@ exports.getUserInfo = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Error registering user", error: err.message });
+      .json({ message: "Error fetching user info", error: err.message });
   }
 };

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { validateEmail } from '../../utils/helper'
 import { FaGithub } from "react-icons/fa";
+import axiosInstance from '../../utils/axiosInstance'
+import { API_PATHS } from '../../utils/apiPaths'
 
 const TESTIMONIALS = [
   {
@@ -80,8 +82,9 @@ export const Login = () => {
   const [error, setError] = useState(null)
   const [tIdx, setTIdx] = useState(0)
   const testimonial = TESTIMONIALS[tIdx]
+  const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
 
     if (!validateEmail(email)) {
@@ -96,7 +99,25 @@ export const Login = () => {
 
     setError("")
 
-    // Loging API Call (Pure Frontend Only for now)
+    // Login API Call
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    }
   }
 
   return (
