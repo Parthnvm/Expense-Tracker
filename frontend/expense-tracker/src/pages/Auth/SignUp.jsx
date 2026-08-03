@@ -83,6 +83,7 @@ export const SignUp = () => {
   const [error, setError] = useState(null)
   const [tIdx, setTIdx] = useState(0)
   const testimonial = TESTIMONIALS[tIdx]
+  const { updateUser } = useContext(UserContext)
 
   const handleSignUp = (e) => {
     e.preventDefault()
@@ -105,7 +106,35 @@ export const SignUp = () => {
     setError("")
 
     // SignUp API Call (Pure Frontend Only for now)
-  }
+    try {
+
+      // Upload image if present
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER,{
+        fullName,
+        email,
+        password,
+        profileImageUrl
+      });
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        Navigate("/dashboard");
+      }
+    } catch (error){
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. PLease try again.");
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen flex" style={{ background: '#09090f', fontFamily: "'DM Sans', sans-serif" }}>
